@@ -15,9 +15,9 @@ namespace QueryBuilder
 
         public QueryBuilder V() => Append(".V()");
 
-        public QueryBuilder V(long id) => Append($".V({id}");
+        public QueryBuilder V(long id) => Append($".V({id})");
 
-        public QueryBuilder HasLabel(string label) => Append($".hasLabel({label}");
+        public QueryBuilder HasLabel(string label) => Append($".hasLabel({label})");
 
         private QueryBuilder Append(string step)
         {
