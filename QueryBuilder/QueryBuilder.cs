@@ -27,6 +27,18 @@ namespace QueryBuilder
 
         public QueryBuilder V(long id) => Append("V", id.ToString());
 
+        public QueryBuilder In() => Append("in");
+
+        public QueryBuilder InV() => Append("inV");
+
+        public QueryBuilder InE() => Append("inE");
+
+        public QueryBuilder Out() => Append("out");
+
+        public QueryBuilder OutV() => Append("outV");
+
+        public QueryBuilder OutE() => Append("outE");
+
         public QueryBuilder HasLabel(string label) => AppendQuoted("hasLabel", label);
 
         public QueryBuilder As(string label) => AppendQuoted("as", label);
@@ -35,8 +47,9 @@ namespace QueryBuilder
 
         public QueryBuilder Select(string label, params string[] labels)
         {
+            var sb = new StringBuilder(Q.Quote(label));
             var @params = labels
-                .Aggregate(new StringBuilder(Q.Quote(label)), (builder, s) => builder.Append($", {Q.Quote(s)}"));
+                .Aggregate(sb, (builder, s) => builder.Append($", {Q.Quote(s)}"));
             return Append("select", @params.ToString());
         }
 

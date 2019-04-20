@@ -40,6 +40,60 @@ namespace QueryBuilderTests
         }
 
         [Fact]
+        public void InTest_ShouldReturnEmptyIn()
+        {
+            const string expected = "g.in()";
+            var actual = Create()
+                .In();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void OutTest_ShouldReturnEmptyOut()
+        {
+            const string expected = "g.out()";
+            var actual = Create()
+                .Out();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void InVTest_ShouldReturnEmptyInV()
+        {
+            const string expected = "g.inV()";
+            var actual = Create()
+                .InV();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void OutVTest_ShouldReturnEmptyOutV()
+        {
+            const string expected = "g.outV()";
+            var actual = Create()
+                .OutV();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void InETest_ShouldReturnEmptyInE()
+        {
+            const string expected = "g.inE()";
+            var actual = Create()
+                .InE();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void OutETest_ShouldReturnEmptyOutE()
+        {
+            const string expected = "g.outE()";
+            var actual = Create()
+                .OutE();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void HasLabelTest_ShouldReturnHasWithLabel()
         {
             const string label = "label";
