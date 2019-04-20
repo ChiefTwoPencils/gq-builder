@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,12 @@ namespace QueryBuilder
 
         public QueryBuilder OutE() => Append("outE");
 
+        public QueryBuilder Property(string label, string value) 
+            => Append("property", AppendParams(label, value));
+
+        public QueryBuilder Property(string label, int value) 
+            => Append("property", AppendParams(label, value));
+
         public QueryBuilder HasLabel(string label) => AppendQuoted("hasLabel", label);
 
         public QueryBuilder As(string label) => AppendQuoted("as", label);
@@ -66,6 +73,17 @@ namespace QueryBuilder
             Builder.Append($".{Q.Append(step, value)}");
             return this;
         }
+
+        private string AppendParams(params string[] @params)
+        {
+            var sb = new StringBuilder(Q.Quote(@params[0]));
+            return @params
+                .Skip(1)
+                .Aggregate(sb, (builder, s) => builder.Append($", {Q.Quote(s)}"))
+                .ToString();
+        }
+
+        private string AppendParams(string prop, int i) => $"{Q.Quote(prop)}, {i}";
 
         private QueryBuilder AppendQuoted(string step, string value) => Append(step, Q.Quote(value));
 

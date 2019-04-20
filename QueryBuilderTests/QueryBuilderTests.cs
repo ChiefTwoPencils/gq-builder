@@ -146,7 +146,6 @@ namespace QueryBuilderTests
             var actual = Create()
                 .Select(@params[0], @params[1], @params[2]);
             Assert.Equal(expected, actual);
-            
         }
 
         [Fact]
@@ -166,8 +165,30 @@ namespace QueryBuilderTests
                 .As(@as);
             string firstActual = actualT;
             Assert.NotEqual(expected, firstActual);
-            string secondActual = actualT.Bind(dict.Keys.ToArray());
+            var secondActual = actualT.Bind(dict.Keys.ToArray());
             Assert.Equal(expected, secondActual);
+        }
+
+        [Fact]
+        public void PropertiesTest_ShouldReturnPropertyWithStringValue()
+        {
+            const string prop = "prop";
+            const string val = "value";
+            var expected = $"g.property('{prop}', '{val}')";
+            var actual = Create()
+                .Property(prop, val);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void PropertyTest_ShouldReturnPropertyWithIntValue()
+        {
+            const string prop = "prop";
+            const int i = 42;
+            var expected = $"g.property('{prop}', {i})";
+            var actual = Create()
+                .Property(prop, i);
+            Assert.Equal(expected, actual);
         }
     }
 }
