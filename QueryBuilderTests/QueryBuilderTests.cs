@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using static QueryBuilder.QueryBuilder;
 using Xunit;
@@ -146,6 +147,27 @@ namespace QueryBuilderTests
                 .Select(@params[0], @params[1], @params[2]);
             Assert.Equal(expected, actual);
             
+        }
+
+        [Fact]
+        public void BindTest_ShouldBindAQuotedHasLabelParam()
+        {
+            const string label = "label";
+            const string @as = "something";
+            var dict = new Dictionary<string, object>
+            {
+                { label, "" },
+                { @as, "" }
+            };
+            const string expected = "g.V().hasLabel(label).as(something)";
+            var actualT = Create()
+                .V()
+                .HasLabel(label)
+                .As(@as);
+            string firstActual = actualT;
+            Assert.NotEqual(expected, firstActual);
+            string secondActual = actualT.Bind(dict.Keys.ToArray());
+            Assert.Equal(expected, secondActual);
         }
     }
 }

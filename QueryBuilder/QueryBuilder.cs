@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -53,6 +54,11 @@ namespace QueryBuilder
             return Append("select", @params.ToString());
         }
 
+        public QueryBuilder Bind(IEnumerable<string> keys) 
+            => keys.Aggregate(
+                    Builder.ToString(),
+                    (query, key) => query.Replace($"'{key}'", key));
+        
         public override string ToString() => Builder.ToString();
         
         private QueryBuilder Append(string step, string value = "")
@@ -64,6 +70,7 @@ namespace QueryBuilder
         private QueryBuilder AppendQuoted(string step, string value) => Append(step, Q.Quote(value));
 
         public static implicit operator string(QueryBuilder qb) => qb.ToString();
+        public static implicit operator QueryBuilder(string s) => new QueryBuilder(s);
     }
 
     public static class Q
