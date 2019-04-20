@@ -9,11 +9,7 @@ namespace QueryBuilderTests
     {
         [Fact]
         public void EmptyTest_ShouldReturnEmptyString()
-        {
-            var expected = string.Empty;
-            var actual = Empty();
-            Assert.Equal(expected, actual);
-        }
+            => Assert.Equal(string.Empty, Empty());
         
         [Fact]
         public void CreateTest_ShouldReturnG()
