@@ -66,8 +66,6 @@ namespace QueryBuilder
                     Builder.ToString(),
                     (query, key) => query.Replace($"'{key}'", key));
         
-        public override string ToString() => Builder.ToString();
-        
         private QueryBuilder Append(string step, string value = "")
         {
             Builder.Append($".{Q.Append(step, value)}");
@@ -86,6 +84,8 @@ namespace QueryBuilder
         private string AppendParams(string prop, int i) => $"{Q.Quote(prop)}, {i}";
 
         private QueryBuilder AppendQuoted(string step, string value) => Append(step, Q.Quote(value));
+        
+        public override string ToString() => Builder.ToString();
 
         public static implicit operator string(QueryBuilder qb) => qb.ToString();
         public static implicit operator QueryBuilder(string s) => new QueryBuilder(s);

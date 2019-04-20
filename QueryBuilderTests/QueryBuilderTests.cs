@@ -165,7 +165,7 @@ namespace QueryBuilderTests
                 .As(@as);
             string firstActual = actualT;
             Assert.NotEqual(expected, firstActual);
-            var secondActual = actualT.Bind(dict.Keys.ToArray());
+            var secondActual = actualT.Bind(dict.Keys);
             Assert.Equal(expected, secondActual);
         }
 
