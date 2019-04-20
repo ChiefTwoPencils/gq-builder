@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 
@@ -54,12 +55,7 @@ namespace QueryBuilder
         public QueryBuilder Select(string label) => AppendQuoted("select", label);
 
         public QueryBuilder Select(string label, params string[] labels)
-        {
-            var sb = new StringBuilder(Q.Quote(label));
-            var @params = labels
-                .Aggregate(sb, (builder, s) => builder.Append($", {Q.Quote(s)}"));
-            return Append("select", @params.ToString());
-        }
+            => Append("select", AppendParams(labels.Prepend(label).ToArray()));
 
         public QueryBuilder Bind(IEnumerable<string> keys) 
             => keys.Aggregate(
