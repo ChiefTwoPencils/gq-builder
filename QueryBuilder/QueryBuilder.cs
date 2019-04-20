@@ -27,17 +27,17 @@ namespace QueryBuilder
 
         public QueryBuilder V(long id) => Append("V", id.ToString());
 
-        public QueryBuilder HasLabel(string label) => Append($"hasLabel", label);
+        public QueryBuilder HasLabel(string label) => AppendQuoted("hasLabel", label);
 
-        public QueryBuilder As(string label) => Append($"as", label);
+        public QueryBuilder As(string label) => AppendQuoted("as", label);
 
-        public QueryBuilder Select(string label) => Append($"select", label);
+        public QueryBuilder Select(string label) => AppendQuoted("select", label);
 
         public QueryBuilder Select(string label, params string[] labels)
         {
             var @params = labels
-                .Aggregate(new StringBuilder(label), (builder, s) => builder.Append($", {s}"));
-            return Select(@params.ToString());
+                .Aggregate(new StringBuilder(Q.Quote(label)), (builder, s) => builder.Append($", {Q.Quote(s)}"));
+            return Append("select", @params.ToString());
         }
 
         public override string ToString() => Builder.ToString();
@@ -47,6 +47,8 @@ namespace QueryBuilder
             Builder.Append($".{Q.Append(step, value)}");
             return this;
         }
+
+        private QueryBuilder AppendQuoted(string step, string value) => Append(step, Q.Quote(value));
 
         public static implicit operator string(QueryBuilder qb) => qb.ToString();
     }
@@ -58,6 +60,7 @@ namespace QueryBuilder
         public static QueryBuilder V() => Builder("V");
         public static QueryBuilder V(long id) => Builder("V", id.ToString());
 
-        public static string Append(string step, string value) => $"{step}({value})";
+        internal static string Append(string step, string value) => $"{step}({value})";
+        internal static string Quote(string value) => $"'{value}'";
     }
 }
