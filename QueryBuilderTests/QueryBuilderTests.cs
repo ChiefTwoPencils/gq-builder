@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static QueryBuilder.QueryBuilder;
@@ -5,84 +6,52 @@ using Xunit;
 
 namespace QueryBuilderTests
 {
+    internal static class T
+    {
+        internal static void SimpleTest(string expected, Func<string> actual)
+            => Assert.Equal(expected, actual());
+    }
     public class QueryBuilderTests
     {
         [Fact]
         public void EmptyTest_ShouldReturnEmptyString()
-            => Assert.Equal(string.Empty, Empty());
-        
+            => T.SimpleTest(string.Empty, () => Empty());
+
         [Fact]
-        public void CreateTest_ShouldReturnG()
-        {
-            const string expected = "g";
-            var actual = Create();
-            Assert.Equal(expected, actual);
-        }
-        
+        public void CreateTest_ShouldReturnG() 
+            => T.SimpleTest("g", () => Create());
+
         [Fact]
         public void VTest_ShouldReturnEmptyV()
-        {
-            const string expected = "g.V()";
-            var actual = Create().V();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.V()", () => Create().V());
 
         [Fact]
         public void VTest_ShouldReturnVWithId()
-        {
-            const int id = 42;
-            var expected = $"g.V({id})";
-            var actual = Create().V(id);
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest($"g.V({42})", () => Create().V(42));
 
         [Fact]
         public void InTest_ShouldReturnEmptyIn()
-        {
-            const string expected = "g.in()";
-            var actual = Create().In();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.in()", () => Create().In());
 
         [Fact]
         public void OutTest_ShouldReturnEmptyOut()
-        {
-            const string expected = "g.out()";
-            var actual = Create().Out();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.out()", () => Create().Out());
 
         [Fact]
         public void InVTest_ShouldReturnEmptyInV()
-        {
-            const string expected = "g.inV()";
-            var actual = Create().InV();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.inV()", () => Create().InV());
 
         [Fact]
         public void OutVTest_ShouldReturnEmptyOutV()
-        {
-            const string expected = "g.outV()";
-            var actual = Create().OutV();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.outV()", () => Create().OutV());
 
         [Fact]
         public void InETest_ShouldReturnEmptyInE()
-        {
-            const string expected = "g.inE()";
-            var actual = Create().InE();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.inE()", () => Create().InE());
 
         [Fact]
         public void OutETest_ShouldReturnEmptyOutE()
-        {
-            const string expected = "g.outE()";
-            var actual = Create().OutE();
-            Assert.Equal(expected, actual);
-        }
+            => T.SimpleTest("g.outE()", () => Create().OutE());
 
         [Fact]
         public void HasLabelTest_ShouldReturnHasWithLabel()
