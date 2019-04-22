@@ -16,6 +16,8 @@ namespace QueryBuilder
         {
             Builder = new StringBuilder(firstStep);
         }
+
+        public static QueryBuilder G() => Create();
         
         public static QueryBuilder Create() => new QueryBuilder();
 
