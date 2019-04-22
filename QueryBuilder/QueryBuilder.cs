@@ -39,10 +39,8 @@ namespace QueryBuilder
 
         public QueryBuilder E() => Append("E");
 
-        public QueryBuilder E(string label) => AppendQuoted("E", label);
-
-        public QueryBuilder E(string label, params string[] labels)
-            => Append("E", AppendParams(labels.Prepend(label).ToArray()));
+        public QueryBuilder E(params string[] labels)
+            => Append("E", AppendParams(labels));
 
         public QueryBuilder In() => Append("in");
 
@@ -66,13 +64,11 @@ namespace QueryBuilder
 
         public QueryBuilder As(string label) => AppendQuoted("as", label);
 
-        public QueryBuilder Select(string label) => AppendQuoted("select", label);
+        public QueryBuilder Select(params string[] labels)
+            => Append("select", AppendParams(labels));
 
-        public QueryBuilder Select(string label, params string[] labels)
-            => Append("select", AppendParams(labels.Prepend(label).ToArray()));
-
-        public QueryBuilder Bind(IEnumerable<string> keys) 
-            => keys.Aggregate(
+        public QueryBuilder Bind(IEnumerable<string> bindings) 
+            => bindings.Aggregate(
                     Builder.ToString(),
                     (query, key) => query.Replace($"'{key}'", key));
         
