@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace QueryBuilder
@@ -28,9 +29,20 @@ namespace QueryBuilder
             return qb;
         }
 
+        public QueryBuilder AddV(string label) => AppendQuoted("addV", label);
+
+        public QueryBuilder AddE(string label) => AppendQuoted("addE", label);
+        
         public QueryBuilder V() => Append("V");
 
         public QueryBuilder V(long id) => Append("V", id.ToString());
+
+        public QueryBuilder E() => Append("E");
+
+        public QueryBuilder E(string label) => AppendQuoted("E", label);
+
+        public QueryBuilder E(string label, params string[] labels)
+            => Append("E", AppendParams(labels.Prepend(label).ToArray()));
 
         public QueryBuilder In() => Append("in");
 

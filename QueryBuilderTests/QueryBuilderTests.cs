@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using static QueryBuilder.QueryBuilder;
 using Xunit;
 
@@ -23,7 +24,23 @@ namespace QueryBuilderTests
 
         [Fact]
         public void GTest_ShouldReturnG()
-            => T.SimpleTest("g", () => G()); 
+            => T.SimpleTest("g", () => G());
+
+        [Fact]
+        public void ETest_ShouldReturnEmptyE()
+            => T.SimpleTest("g.E()", () => G().E());
+
+        [Fact]
+        public void ETest_ShouldReturnEWithOneParam()
+            => T.SimpleTest("g.E('param')", () => G().E("param"));
+
+        [Fact]
+        public void ETest_ShouldReturnWithMultiParam()
+            => T.SimpleTest("g.E('first', 'second')", () => G().E("first", "second"));
+
+        [Fact]
+        public void AddETest_ShouldReturnAddEWithParam()
+            => T.SimpleTest("g.addE('param')", () => G().AddE("param"));
 
         [Fact]
         public void VTest_ShouldReturnEmptyV()
@@ -33,6 +50,10 @@ namespace QueryBuilderTests
         public void VTest_ShouldReturnVWithId()
             => T.SimpleTest($"g.V({42})", () => G().V(42));
 
+        [Fact]
+        public void AddVTest_ShouldReturnAddVWithParam()
+            => T.SimpleTest("g.addV('param')", () => G().AddV("param"));
+        
         [Fact]
         public void InTest_ShouldReturnEmptyIn()
             => T.SimpleTest("g.in()", () => G().In());
